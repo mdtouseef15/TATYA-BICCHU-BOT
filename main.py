@@ -4,6 +4,7 @@ import requests
 import json
 import random
 from replit import db
+from keep_alive import keep_alive
 
 
 client = discord.Client()
@@ -81,13 +82,13 @@ async def on_message(message):
         index = int(msg.split("$del",1)[1])
         delete_encouragment(index)
         encouragements = db["encouragements"]
-      await message.channel.send(encouragements)
+        await message.channel.send(encouragements)
 
     if msg.startswith("$list"):
       encouragements = []
       if "encouragements" in db.keys():
         encouragements = db["encouragements"]
-    await message.channel.send(encouragements)
+        await message.channel.send(encouragements)
 
     if msg.startswith("$responding"):
       value = msg.split("$responding ",1)[1]
@@ -99,4 +100,5 @@ async def on_message(message):
         db["responding"] = False
         await message.channel.send("Responding is off.")
 
+keep_alive()
 client.run(os.getenv('TOKEN'))
